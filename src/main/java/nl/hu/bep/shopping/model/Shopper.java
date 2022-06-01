@@ -2,18 +2,24 @@ package nl.hu.bep.shopping.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class Shopper implements NamedObject {
+public class Shopper implements NamedObject, Principal {
     private String name;
+    private String role;
+    private String password;
+
     private static List<Shopper> allShoppers = new ArrayList<>();
     private List<ShoppingList> allLists = new ArrayList<>();
 
-    public Shopper(String nm) {
+    public Shopper(String nm, String role, String password) {
         this.name = nm;
+        this.password=password;
+        this.role=role;
         if (!allShoppers.contains(this)) allShoppers.add(this);
     }
 
@@ -44,7 +50,14 @@ public class Shopper implements NamedObject {
         }
         return false;
     }
+    public String getRole(){
+        return role;
 
+    }
+
+    public String getPassword(){
+        return password;
+    }
     @JsonIgnore
     public List<ShoppingList> getAllLists() {
         return Collections.unmodifiableList(allLists);
